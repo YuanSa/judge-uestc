@@ -2,6 +2,8 @@
 //ini_set('display_errors',1);
 
 $device = "PC";
+$USER_DB = " "; // User database name
+$APP_DB = ""; // App information database name 
 
 function sql_safety($conn, &...$arguments) {
     foreach ($arguments as &$argument_safe) {
@@ -10,7 +12,7 @@ function sql_safety($conn, &...$arguments) {
 }
 
 function sql_link($type, $database) {
-    $servername = "cdb-2i6ogv6q.cd.tencentcdb.com:10007";
+    $servername = "";
     switch($type) {
         // You should fill in the username & psw for different roles
         case "admin":
@@ -39,7 +41,8 @@ function sql_link($type, $database) {
 }
 
 function check($uid, $token, $conn=null) {
-    $conn = $conn ?? sql_link("guest", "ys_users");
+    global $USER_DB;
+    $conn = $conn ?? sql_link("guest", $USER_DB);
     sql_safety($conn, $uid, $token);
     $sql = "SELECT token, power, expire FROM users WHERE uid=$uid";
     if($result = $conn->query($sql)) {
@@ -54,7 +57,8 @@ function check($uid, $token, $conn=null) {
 }
 
 function verifyViaPassword($uid, $pw, $conn=null) {
-    if($conn = $conn ?? sql_link("user", "ys_users")) {
+    global $USER_DB;
+    if($conn = $conn ?? sql_link("user", $USER_DB)) {
         sql_safety($conn, $uid);
         $sql = "SELECT pw FROM users WHERE uid=$uid";
         if($result = $conn->query($sql)->fetch_assoc())
@@ -65,7 +69,8 @@ function verifyViaPassword($uid, $pw, $conn=null) {
 }
 
 function verifyViaQNA($uid, $ans1, $ans2, $conn=null) {
-    if($conn = $conn ?? sql_link("user", "ys_users")) {
+    global $USER_DB;
+    if($conn = $conn ?? sql_link("user", $USER_DB)) {
         sql_safety($conn, $uid, $ans1, $ans2);
         $sql = "SELECT a1, a2 FROM qna WHERE uid=$uid";
         if($result = $conn->query($sql)->fetch_assoc())
@@ -77,7 +82,8 @@ function verifyViaQNA($uid, $ans1, $ans2, $conn=null) {
 }
 
 function countAction($uid, $action, $delta) {
-    if($conn = sql_link("admin", "judge")) {
+    global $APP_DB;
+    if($conn = sql_link("admin", $APP_DB)) {
         switch($action) {
             case "tag": $key = "tag"; break;
             case "judge": $key = "score_pair"; break;
@@ -104,7 +110,8 @@ function countAction($uid, $action, $delta) {
 }
 
 function messageTo($uid, $text, $fromWho, $type="notice", $conn=null) {
-    if($conn = $conn ?? sql_link("admin", "judge")) {
+    global $APP_DB;
+    if($conn = $conn ?? sql_link("admin", $APP_DB)) {
         sql_safety($conn, $uid, $text, $fromWho);
         $sql = "INSERT INTO messages (uid, text, fromWho, type) VALUES ($uid, '$text', $fromWho, '$type')";
         if($conn->query($sql)) {
@@ -120,8 +127,8 @@ function messageTo($uid, $text, $fromWho, $type="notice", $conn=null) {
 // THE FOLLOWING FUNCTIONS ARE OUT-DATED
 
 function ys_weight($uid, $delta) {
-    global $SCHOOL_CODE;
-    if($connU = sql_link("user", "ys_users")) {
+    global $SCHOOL_CODE, $USER_DB;
+    if($connU = sql_link("user", $USER_DB)) {
         $uid = $connU->real_escape_string($uid);
         $delta = (int)$delta;
         $sql = "SELECT weight FROM counters WHERE uid=$uid";
@@ -199,7 +206,8 @@ function ys_weight($uid, $delta) {
 }
 
 function ys_achievement ($uid, $type) {
-    $conn = sql_link("user", "ys_users");
+    global $USER_DB;
+    $conn = sql_link("user", $USER_DB);
     $uid = $conn->real_escape_string($uid);
     switch($type) {
         case "star":
