@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课程</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/user_center.css">
+</head>
+<body>
+    <div class="info">
+        <div class="avatar">
+            <img src="../img/avatars/default.png" id="avatar" alt="头像">
+            <div class="tag" style="display: none">未认证</div>
+        </div>
+        <div class="text">
+            <div class="name" id="nickname">…</div>
+            <div class="counters">
+                <div class="counter">
+                    <div class="key">打分</div>
+                    <div class="value" id="num_judge">…</div>
+                </div>
+                <div class="counter">
+                    <div class="key">评论</div>
+                    <div class="value" id="num_description">…</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="achievement">
+        <div class="title">解锁成就</div>
+        <img src="../img/icons/achievement/feather.svg" alt="">
+        <div class="name">牛顿的羽毛笔</div>
+        <div class="detail">成就系统建设中，欢迎提出宝贵意见</div>
+    </div>
+    <div class="actions">
+        <button class="pill" id="btn_messages">
+            <svg viewBox="0 0 1024 1024" version="1.1">
+                <path d="M860.084767 758.561535c0 7.703449-6.798846 14.502295-14.502295
+                14.502295L178.417529 773.063831c-7.703449 0-14.502295-6.798846-14.502295-14.502295L163.915233
+                410.475745c9.517771 10.876722 19.942191 20.84884 31.273261 29.91431 64.811098
+                49.853431 130.076544 100.617605 193.07639 153.192008 33.992185 28.55229
+                76.145238 63.452147 123.280768 63.452147l0.452301 0 0.455371 0c47.13553
+                0 89.285512-34.898835 123.280768-63.452147 62.999846-52.575426 128.265292-103.338576
+                193.07639-153.192008 11.332093-9.06547 21.756513-19.037589 31.273261-29.91431L860.083743
+                758.561535zM860.084767 282.20943c0 38.524408-37.165458 88.833211-66.62542
+                111.948675-60.733223 47.589878-121.466446 95.633081-181.747367 143.67526-24.022113
+                19.48989-67.532069 61.188594-99.258655 61.188594l-0.455371 0-0.452301 0c-31.725562
+                0-75.235518-41.698704-99.258655-61.188594-60.280922-48.042179-121.014144-96.084359-181.747367-143.67526-40.791032-32.180933-66.62542-77.04984-66.62542-128.720663
+                0-7.703449 6.798846-14.502295 14.502295-14.502295l667.164942 0C862.802668
+                250.936169 860.084767 270.87836 860.084767 282.20943zM918.099065
+                265.438465c0-39.884382-32.633235-72.517617-72.517617-72.517617L178.417529
+                192.920848c-39.884382 0-72.517617 32.633235-72.517617 72.517617l0 493.123071c0
+                39.884382 32.633235 72.517617 72.517617 72.517617l667.164942 0c39.884382 0
+                72.517617-32.633235 72.517617-72.517617L918.100088 265.438465z"></path>
+            </svg>      
+        </button>
+        <button class="pill" id="btn_settings">
+            <svg viewBox="0 0 1024 1024" version="1.1" width="200" height="200">
+                <path d="M927.6 586.6c-3.7 24-18.5 40.6-37 40.6h-3.7c-61.1 0-111.1 49.8-111.1
+                112.5 0 20.3 9.3 42.4 9.3 42.4 9.3 22.1 1.9 47.9-16.7 60.8h-1.9L659 903.7h-1.9c-5.6 1.8-13
+                3.7-20.4 3.7-14.8 0-31.5-7.4-40.7-16.6-13-14.7-55.6-53.5-88.9-53.5-33.3
+                0-75.9 38.7-88.9 51.6-9.3 11.1-24.1 16.6-40.7 16.6-7.4
+                0-14.8-1.8-20.4-3.7h-1.9l-103.7-59h-1.9C231.2 830 223.7 802.3 233 782c0 0
+                9.3-22.1 9.3-42.4 0-60.8-50-112.5-111.1-112.5-16.7 0-31.5-14.7-37-40.6 0-1.8-9.3-47.9-9.3-84.8s9.3-83
+                9.3-84.8c3.7-24 18.5-40.6 37-40.6h3.7C196 376.5 246 326.7 246
+                264c0-20.3-9.3-42.4-9.3-42.4-11.1-18.4-3.7-46.1 16.7-59h1.9l111.1-60.8h1.9c3.7-3.7 9.3-5.5
+                16.7-5.5 14.8 0 29.6 5.5 40.7 16.6 13 12.9 53.7 49.8 87.1 49.8 33.3 0 74.1-35
+                87.1-47.9 9.3-11.1 24.1-16.6 38.9-16.6 7.4 0 14.8 1.8 20.4 3.7h1.9l107.4 59h1.9c18.5
+                12.9 25.9 40.6 16.7 60.8 0 0-9.3 22.1-9.3 42.4 0 60.8 50 112.5 111.1 112.5h3.7c16.7
+                0 31.5 14.7 37 40.6 0 1.8 9.3 47.9 9.3 84.8-2 36.7-11.3 82.8-11.3 84.6z
+                m-56.4-158c-1.7-5.2-1.7-7-3.5-8.7-77 0-139.9-62.7-139.9-141 0-24.4 8.7-48.7
+                12.2-54 1.7-5.2 0-12.2-3.5-15.7l-97.9-54h-5.2c-5.2 0-10.5 1.7-12.2 5.2-5.2
+                5.2-56 57.5-108.4 57.5-52.5 0-103.2-52.2-108.4-57.5-1.7-5.2-7-7-12.2-7H387l-101.4
+                55.7c-3.5 3.5-5.2 10.4-3.5 15.7 0 0 12.2 27.9 12.2 54 0 76.6-63 141-139.9 141-1.7
+                1.7-1.7 5.2-3.5 8.7 0 0-7 41.8-7 73.1s7 73.1 7 73.1c1.7 5.2 1.7 7 3.5 8.7 77 0
+                139.9 62.7 139.9 141 0 22.6-8.7 45.3-12.2 54-1.7 5.2 0 12.2 3.5 15.7l96.2 54h5.2c5.2
+                0 10.5-1.7 12.2-5.2 1.7-1.7 56-60.9 110.2-60.9s104.6 55.8 109.9 61c1.7 1.7 7 5.2
+                12.2 5.2h5.2l99.7-55.7c3.5-3.5 5.2-10.4 3.5-15.7-1.7-3.5-12.2-27.9-12.2-54 0-76.6
+                63-141 139.9-141 1.7-1.7 1.7-5.2 3.5-8.7 0 0 7-41.8 7-73.1 0.1-29.6-6.9-71.4-6.9-71.4zM510.8
+                673c-94.6 0-172-77-172-171.2s77.4-171.2 172-171.2 172 77 172 171.2S605.4 673 510.8
+                673z m0-288.7c-63.9 0-118.1 52-118.1 117.6S445 619.4 510.8 619.4s118.1-52 118.1-117.6-54.2-117.5-118.1-117.5z"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="uid_outer">
+        <div class="uid" id="uid">UID: …</div>
+    </div>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    
+    let uid = getUrlPara("uid");
+    let avatar, nickname;
+    if((!uid) || uid == "me") {
+        uid = getCookie("uid");
+        avatar = getCookie("avatar");
+        nickname = getCookie("nickname");
+        document.getElementById("avatar").src = "../img/avatars/"+avatar+".png";
+        document.getElementById("nickname").innerHTML = nickname;
+        document.getElementById("btn_settings").onclick = function () {
+            location.href = "user_setting.html";
+        }
+        document.getElementById("btn_messages").onclick = function() {
+            location.href = "user_message.html";
+        }
+    } else {
+        document.getElementById("btn_settings").style.display = "none";
+        document.getElementById("btn_messages").style.display = "none";
+    }
+    document.getElementById("uid").innerHTML = "UID: " + uid;
+    ajaxTo("POST", "../php/user/get_info.php", {uid: uid}, function(json) {
+        if(json.state == "success") {
+            document.getElementById("num_judge").innerHTML = json.numJudge;
+            document.getElementById("num_description").innerHTML = json.numDescription;
+            document.getElementById("avatar").src = "../img/avatars/"+json.avatar+".png";
+            document.getElementById("nickname").innerHTML = json.nickname;
+        }
+    });
+</script>
+</html>

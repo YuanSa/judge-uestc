@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课程</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/course.css">
+</head>
+<body>
+    <div class="info">
+        <div class="title" id="name">请稍候</div>
+        <div class="code" id="code">正在加载课程信息</div>
+        <div class="description" id="description"></div>
+        <div class="tags">
+            <div class="tag"><img src="../img/tag.svg">考核方式：<span id="assessment">未知</span></div>
+            <div class="tag" id="tags_examMid" style="display: none;"><img src="../img/tag.svg">期中考试</div>
+            <div class="tag" id="tags_examFinal" style="display: none;"><img src="../img/tag.svg">期末考试</div>
+            <div class="tag" id="tags_quiz" style="display: none;"><img src="../img/tag.svg">随堂测验</div>
+            <div class="tag" id="tags_activities" style="display: none;"><img src="../img/tag.svg">课外活动</div>
+            <div class="tag" id="tags_thesis" style="display: none;"><img src="../img/tag.svg">论文/课设</div>
+            <div class="tag" id="tags_focus" style="display: none;"><img src="../img/tag.svg">要求专注</div>
+            <div class="tag" id="tags_experiment" style="display: none;"><img src="../img/tag.svg">实验</div>
+            <div class="tag" id="tags_presentation" style="display: none;"><img src="../img/tag.svg">演讲</div>
+            <div class="tag" id="tags_speak" style="display: none;"><img src="../img/tag.svg">发言</div>
+            <div class="tag" id="tags_attendance" style="display: none;"><img src="../img/tag.svg">点名/出勤</div>
+        </div>
+        <div class="actions">
+            <button class="plain" onclick="editCourseInfo();">
+                <svg viewBox="0 0 1024 1024" width="200" height="200">
+                    <path d="M465.654 852.308l429.529-509.401c27.574-32.622 23.301-81.943-9.321-109.388l-158.193-133.597c-32.622-27.574-81.943-23.301-109.388 9.321l-429.658 509.401-24.854 271.595c-0.907 9.968 3.107 19.807 10.745 26.279s17.994 8.803 27.703 6.213l263.439-70.422zM587.213 242.32l182.141 153.533-311.077 368.944-182.141-153.662 311.077-368.814zM687.54 147.432l158.322 133.467c6.473 5.438 7.249 15.405 1.812 21.878l-38.577 45.826-182.012-153.533 38.577-45.826c5.438-6.473 15.534-7.249 21.878-1.812zM229.014 851.79l16.959-184.731 162.335 136.833-179.293 47.899z"></path>
+                </svg>
+                编辑
+            </button>
+        </div>
+    </div>
+    <div class="teachers" id="teachers">
+        <!-- Templet
+        <div class="teacher">
+            <div class="name">杨子涵</div>
+            <div class="score">4.3</div>
+        </div>
+        <div class="teacher_detail">
+            <div class="scores">
+                <div class="score">难度 5.0</div>
+                <div class="score">质量 1.1</div>
+                <div class="score">给分 4.3</div>
+            </div>
+            <div class="description">300字以内的介绍</div>
+            <div class="actions">
+                <button>评价</button>
+            </div>
+        </div>
+        -->
+    </div>
+    <div class="hint" id="hint1">*总分已经过权重调整</div>
+    <div class="hint" id="hint2">*登陆后可自定义各分项分值权重</div>
+    <div class="hint" id="hint3">*您可以在个人中心自定义各分项分值权重</div>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    let weight = getCookie("weight");
+    if(weight) {
+        weight = weight.split(",");
+        for(x in weight) {
+            weight[x] = parseFloat(weight[x]);
+        }
+    } else {
+        weight = [1,1,1];
+    }
+
+    let code = getUrlPara("code");
+    
+    ajaxTo("POST", "../php/system/course_info.php", {code: code}, function(json) {
+        if(json.state == "success") {
+            document.getElementById("name").innerHTML = json.name;
+            document.getElementById("code").innerHTML = code;
+            document.getElementById("description").innerHTML = json.description;
+            document.getElementById("assessment").innerHTML = sequence(json.assessment, "未知");
+            let tags = document.getElementsByClassName("tag");
+            for(key in json.tags) {
+                if(key == "num") continue;
+                document.getElementById("tags_"+key).style.display = (json.tags[key] / json.tags.num >= 0.3 && json.tags[key]>0) ? "" : "none";
+            }
+            if(json.teachers && json.teachers.length) {
+                // Sort by final score
+                for(let i = 0; i < json.teachers.length; i++) {
+                    json.teachers[i].finalScore = ((parseInt(json.teachers[i].judge.score)*weight[0] + parseInt(json.teachers[i].judge.quality)*weight[1] + parseInt(json.teachers[i].judge.easy)*weight[2]) / (weight[0]+weight[1]+weight[2]));
+                }
+                json.teachers.sort(function (a, b) {
+                    return b.finalScore - a.finalScore;
+                });
+                // Show hint about weight
+                if(weight[0] != 1 || weight[1] != 1 || weight[2] != 1) {
+                    document.getElementById("hint1").style.display = "block";
+                } else {
+                    if(getCookie("login") != "true") {
+                        document.getElementById("hint2").style.display = "block";
+                    } else {
+                        document.getElementById("hint3").style.display = "block";
+                    }
+                }
+                // Append panels
+                let teachers = document.getElementById("teachers");
+                let newNodeL1, newNodeL2, newNodeL3;
+                for(let i = 0; i < json.teachers.length; i++) {
+                    newNodeL1 = document.createElement("div");
+                    newNodeL1.className = "teacher";
+                    newNodeL2 = document.createElement("div");
+                    newNodeL2.className = "name";
+                    newNodeL2.innerHTML = json.teachers[i].name;
+                    newNodeL1.appendChild(newNodeL2);
+                    newNodeL2 = document.createElement("div");
+                    newNodeL2.className = "score";
+                    if(json.teachers[i].judge.number != 0) {
+                        newNodeL2.innerHTML = ((parseInt(json.teachers[i].judge.score)*weight[0] + parseInt(json.teachers[i].judge.quality)*weight[1] + parseInt(json.teachers[i].judge.easy)*weight[2]) / (weight[0]+weight[1]+weight[2])).toFixed(1);
+                    } else {
+                        newNodeL2.innerHTML = "";
+                    }
+                    newNodeL1.appendChild(newNodeL2);
+                    teachers.appendChild(newNodeL1);
+
+                    newNodeL1 = document.createElement("div");
+                    newNodeL1.className = "teacher_detail";
+                    newNodeL2 = document.createElement("div");
+                    newNodeL2.className = "scores";
+                    newNodeL3 = document.createElement("div");
+                    newNodeL3.className = "score";
+                    if(json.teachers[i].judge.number != 0) {
+                        newNodeL3.innerHTML = "给分 " + parseFloat(json.teachers[i].judge.score).toFixed(1);
+                        newNodeL2.appendChild(newNodeL3);
+                        newNodeL3 = document.createElement("div");
+                        newNodeL3.className = "score";
+                        newNodeL3.innerHTML = " 质量 " + parseFloat(json.teachers[i].judge.quality).toFixed(1);
+                        newNodeL2.appendChild(newNodeL3);
+                        newNodeL3 = document.createElement("div");
+                        newNodeL3.className = "score";
+                        newNodeL3.innerHTML = " 容易 " + parseFloat(json.teachers[i].judge.easy).toFixed(1);
+                        newNodeL2.appendChild(newNodeL3);
+                        newNodeL3 = document.createElement("div");
+                        newNodeL3.className = "score";
+                        newNodeL3.innerHTML = " 共" + json.teachers[i].judge.number + "人评价";
+                    } else {
+                        newNodeL3.innerHTML = "还没有人打分";
+                    }
+                    newNodeL2.appendChild(newNodeL3);
+                    newNodeL1.appendChild(newNodeL2);
+                    newNodeL2 = document.createElement("div");
+                    newNodeL2.className = "description";
+                    newNodeL2.innerHTML = json.teachers[i].description;
+                    newNodeL1.appendChild(newNodeL2);
+                    newNodeL2 = document.createElement("div");
+                    newNodeL2.className = "actions";
+                    newNodeL3 = document.createElement("button");
+                    newNodeL3.innerHTML = "我来评价";
+                    newNodeL3.onclick = function() {
+                        loginThenGoto("judge.html?course="+code+"&teacher="+json.teachers[i].code);
+                    }
+                    newNodeL2.appendChild(newNodeL3);
+                    newNodeL1.appendChild(newNodeL2);
+                    teachers.appendChild(newNodeL1);
+                }
+                activePannel();
+            } else {
+                alert("本课程没有授课老师信息，请确认课程代码与您要评教的课程相同。");
+            }
+        } else {
+            alert("对不起，遇到了致命错误。请截图联系管理员解决。\n["+json.code+"] " + json.message);
+        }
+    });
+
+    function activePannel() {
+        let pannels = document.getElementsByClassName("teacher");
+        let pannel_contents = document.getElementsByClassName("teacher_detail");
+        for(let x = 0; x<pannels.length; x++) {
+            pannel_contents[x].open = false;
+            pannels[x].onclick = function() {
+                //pannel_contents[x].style.transform = pannel_contents[x].open ? "scaleY(0)" : "scaleY(1)";
+                pannel_contents[x].style.maxHeight = pannel_contents[x].open ? "0" : "20em";
+                pannel_contents[x].open = pannel_contents[x].open ? false : true;
+            }
+        }
+    }
+
+    function editCourseInfo() {
+        loginThenGoto("judge_course.html?code="+code);
+    };
+</script>
+</html>

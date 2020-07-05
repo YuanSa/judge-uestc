@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>点灯评教 - 详情审核</title>
+</head>
+<body>
+    <h1>详情审核</h1>
+    <p id="notice"></p>
+    <h2>原评论</h2>
+    <p id="comment_now">正在获取</p>
+    <h2>新评论</h2>
+    <p id="comment_new">正在获取</p>
+    <h2>操作</h2>
+    <input type="text" id="note" placeholder="备注"><br>
+    <button onclick="decide(true)">通过</button>
+    <button onclick="decide(false)">拒绝</button>
+
+    <script src="../../js/universal.js"></script>
+    <script>
+        var id;
+
+        getTask();
+        function getTask() {
+            ajaxTo("POST", "../../php/admin/get_task_info.php", {}, function(json) {
+                if(json.state == "success") {
+                    id = json.id;
+                    let comment_now;
+                    if(json.action == "describe") {
+                        comment_now = "../../data/course-teacher/" + json.course + "-" + json.teacher + ".txt";
+                    } else if(json.action == "describeCourse") {
+                        comment_now = "../../data/course/" + json.course + ".txt";
+                    }
+                    writeText(comment_now, document.getElementById("comment_now"));
+                    let comment_new = "../../data/actions/" + json.id + ".txt";
+                    writeText(comment_new, document.getElementById("comment_new"));
+                } else if(json.code == 4) {
+                    alert("任务已空。谢谢！");
+                    location.href = "index.html";
+                }
+            });
+        }
+        function writeText(url, node) {
+            ajaxTo("GET", url, {}, function(json) {
+                node.innerHTML = (json.state=="success"?json.text:"无");
+            }, false);
+        }
+        function decide(decision) {
+            let note = document.getElementById("note");
+            ajaxTo("POST", "../../php/admin/decide_task.php", {id: id, decision: decision, note: note.value}, function(json) {
+                document.getElementById("notice").innerHTML = json.message;
+                console.log(json.message);
+                document.getElementById("comment_now").innerHTML = "正在获取";
+                document.getElementById("comment_new").innerHTML = "正在获取";
+                note.value = "";
+                getTask();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登陆与注册</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/user_login.css">
+</head>
+<body>
+    <div class="sections">
+        <div class="section selected">登陆</div>
+        <div class="section">注册</div>
+    </div>
+        <div class="section_contents" id="section_contents">
+            
+            <div class="section_content" style="opacity: 1; z-index: 2;">
+                <form onsubmit="next();return false;">
+                    <div class="item">
+                        <div class="name">用户名</div>
+                        <input autofocus tabindex="1" type="text" id="login_un" placeholder="用户名 / UID / 学号" maxlength="24">
+                    </div>
+                    <div class="item">
+                        <div class="name">密码</div>
+                        <input tabindex="2" type="password" id="login_pw" autocomplete="current-password"  autocomplete="current-password" maxlength="32">
+                    </div>
+                    <input type="submit" style="display: none;">
+                </form>
+            </div>
+
+            <div class="section_content" style="opacity: 0; z-index: 1;">
+                <form onsubmit="next();return false;">
+                    <div class="item">
+                        <div class="name">用户名</div>
+                        <input tabindex="3" type="text" id="register_un" maxlength="24">
+                        <div class="notice">24位以下，且不能是13位纯数字</div>
+                    </div>
+                    <div class="item">
+                        <div class="name">密码</div>
+                        <input tabindex="4" type="password" id="register_pw1" autocomplete="new-password" maxlength="32">
+                        <input tabindex="5" type="password" id="register_pw2" autocomplete="new-password" maxlength="32" placeholder="确认密码">
+                        <div class="notice">32位以下</div>
+                    </div>
+                    <input type="submit" style="display: none;">
+                </form>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="pill" id="button" onclick="next();">
+                <svg viewBox="0 0 1024 1024" width="200" height="200">
+                    <path d="M843.693959 293.609061 425.255869 712.056362 186.145026 472.947566 66.579883 592.504522 425.255869 951.165158 963.260126 413.174204Z"></path>
+                </svg>
+            </button>
+            <div class="notice" id="notice">继续则代表您同意<a href="reader.html?i=1">服务协议</a></div>
+        </div>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    let value_now = 0;
+    let sections = document.getElementsByClassName("section");
+    let section_contents = document.getElementsByClassName("section_content");
+    let section_outer = document.getElementById("section_contents");
+    let button = document.getElementById("button");
+    let notice = document.getElementById("notice");
+    if(getCookie("login") == "true") history.go(-1);
+    for(let index = 0; index < sections.length; index++) {
+        sections[index].value = index;
+        sections[index].onclick = function() {
+            if(value_now == this.value)
+                return;
+            sections[value_now].className = "section";
+            section_contents[value_now].style.opacity = 0;
+            section_contents[value_now].style.zIndex = 1;
+            value_now = this.value;
+            section_contents[value_now].style.opacity = 1;
+            section_contents[value_now].style.zIndex = 2;
+            this.className += " selected";
+            mode = this.innerHTML;
+            button.style.backgroundColor = "";
+            button.style.fill = "";
+            switch(value_now) {
+                case 0:
+                    section_outer.style.height = "156px";
+                    document.getElementById("login_un").focus();
+                    break;
+                case 1:
+                    section_outer.style.height = "225px";
+                    document.getElementById("register_un").focus();
+                    break;
+            }
+            notice.innerHTML = "继续则代表您同意<a href='reader.html?i=1'>服务协议</a>";
+            notice.style.color = "#999";
+        }
+    }
+
+    function next() {
+        let checkError = check(value_now ? "register" : "login");
+        let msg, color;
+        if(checkError) {
+            color = "red";
+            switch(checkError) {
+                case 1: msg = "请输入用户名"; break;
+                case 2: msg = "请输入密码"; break;
+                case 3: msg = "请输入用户名"; break;
+                case 4: msg = "请输入密码"; break;
+                case 5: msg = "请再次输入密码"; break;
+                case 6: msg = "两次输入的密码不同"; break;
+                case 7: msg = "用户名不能是13位纯数字"; break;
+            }
+        } else {
+            color = "#999";
+            msg = "正在" + (value_now?"注册":"登陆");
+            button.style.backgroundColor = "orange";
+            button.style.fill = "white";
+        }
+        notice.innerHTML = msg;
+        notice.style.color = color;
+    }
+    function submit() {
+        if(event.keyCode == 13) {
+            next();
+        }
+        return;
+    }
+
+    function check(mode) {
+        if(mode == "login") {
+            let un = document.getElementById("login_un").value;
+            let pw = document.getElementById("login_pw").value;
+            if(un) {
+                if(pw) {
+                    login(un, pw);
+                    return 0;
+                } else return 2;
+            } else return 1;
+        } else if(mode == "register") {
+            let un = document.getElementById("register_un").value;
+            let pw1 = document.getElementById("register_pw1").value;
+            let pw2 = document.getElementById("register_pw2").value;
+            if(un) {
+                if(pw1) {
+                    if(pw2) {
+                        if(pw1 == pw2) {
+                            let unIntegerTest = parseInt(un);
+                            if(unIntegerTest && unIntegerTest >= 1000000000000 && unIntegerTest <= 9999999999999) {
+                                return 7;
+                            } else {
+                                register(un, pw1);
+                                return 0;
+                            }
+                        } else return 6;
+                    } else return 5;
+                } else return 4;
+            } else return 3;
+        }
+    }
+
+    function login(un, pw) {
+        ajaxTo("POST", "../php/user/login.php", {un: un, pw: pw}, function(json) {
+            if(json.state == "success") {
+                button.style.backgroundColor = "green";
+                let urlGoto = getUrlPara("to");
+                if(urlGoto) {
+                    location.href = urlUnparse(urlGoto);
+                } else {
+                    location.href = "notice.html?code=101";
+                }
+            } else {
+                notice.innerHTML = "[" + json.code + "] " + json.message;
+                button.style.backgroundColor = "red";
+                notice.style.color = "red";
+            }
+        });
+    }
+
+    function register(un, pw) {
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var json = JSON.parse(xmlhttp.responseText);
+                if(json.state == "success") {
+                    //setCookie("login", "true");
+                    let urlGoto = getUrlPara("to");
+                    if(urlGoto) {
+                        location.href = urlUnparse(urlGoto);
+                    } else {
+                        location.href = "notice.html?code=100&uid=" + json.uid;
+                    }
+                } else {
+                    notice.innerHTML = "[" + json.code + "] " + json.message;
+                    notice.style.color = "red";
+                }
+            }
+        }
+        xmlhttp.open("POST", "../php/user/register.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("un="+un+"&pw="+pw);
+    }
+</script>
+</html>

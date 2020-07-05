@@ -1,0 +1,189 @@
+.textBox {
+    padding: 0 .9em;
+    height: 1.8em;
+    color: #AAA;
+    font-size: 1em;
+    border-style: solid;
+    border-width: thin;
+    border-radius: .9em;
+    outline: none;
+    background-position: calc(100% - .5em);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.textBox::placeholder {
+    color: #AAA;
+}
+.textBox:focus {
+    color: #555;
+    border-color: #CCC;
+    background-color: white;
+}
+
+table {
+    border-collapse: collapse;
+}
+table th {
+    padding: .2em .5em;
+    color: var(--alt-key-color);
+    background-color: var(--d1-color);
+}
+table th:first-child {
+    border-radius: .2em 0 0 .2em;
+}
+table th:last-child {
+    border-radius: 0 .2em .2em 0;
+}
+table:not([class~="plain"]) td {
+    padding: 0 .5em;
+}
+table:not([class~="plain"]) tr:nth-child(odd) {
+    background-color: var(--b5-color);
+}
+table:not([class~="plain"]) tr:nth-child(even) {
+    background-color: var(--alt-key-color);
+}
+table:not([class~="plain"]) tr:last-child {
+    border-bottom-style: solid;
+    border-width: thin;
+    border-color: var(--d1-color);
+}
+table:not([class~="plain"]) tr:hover {
+    background-color: var(--b4-color);
+}
+
+.pages {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.pages div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 .3em;
+}
+.pages .button {
+    margin: 0 .2em;
+    width: 2em;
+    height: 2em;
+    color: white;
+    text-align: center;
+    font-size: 1em;
+    border-style: none;
+    border-radius: 50%;
+    background-color: var(--b2-color);
+    outline: none;
+}
+.pages .button:hover {
+    background-color: var(--b1-color);
+}
+.pages .disable {
+    background-color: #CCC!important;
+}
+.pages .reverse {
+    transform: rotate(180deg);
+}
+.pages .button svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1em;
+    height: 1em;
+    fill: white;
+}
+
+button, input[type="submit"] {
+    background-color: white;
+    border-style: solid;
+    border-color: inherit;
+    border-width: thin;
+    border-radius: .3em;
+    transition: all .3s;
+}
+button[class~="pill"], input[type="submit"][class~="pill"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3em;
+    width: 3em;
+    color: gray;
+    border-style: none;
+    border-radius: 100%;
+    background-color: #EEE;
+    box-shadow: 0 0 .5em rgba(0,0,0,.4);
+    fill: #999;
+}
+button[class~="pill"] svg {
+    width: 80%;
+    height: 80%;
+}
+button[class~="plain"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: gray;
+    fill: #999;
+    border-style: none;
+    background-color: transparent;
+}
+button[class~="plain"] svg {
+    width: 1.5em;
+    height: 1.5em;
+}
+button[class~="tag"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+button[class~="tag"] svg {
+    margin-right: .3em;
+    width: 1em;
+    height: 1em;
+}
+
+input, select {
+    padding: .3em;
+    font-size: 1em;
+    border-style: solid;
+    border-width: thin;
+    border-radius: .2em;
+    border-color: var(--b3-color);
+    outline: none;
+}
+input:focus {
+    border-color: var(--d1-color);
+}
+input::placeholder {
+    color: #CCC;
+}
+
+h1 {
+    color: var(--d1-color);
+    font-size: 1.5em;
+}
+h2 {
+    color: var(--d2-color);
+    font-size: 1.2em;
+}
+
+.radioSet {
+    display: flex;
+    border-style: solid;
+    border-width: thin;
+    border-color: var(--m0-color);
+    border-radius: .25em;
+    overflow: hidden;
+}
+.radioSet button {
+    width: 100%;
+    color: var(--m0-color);
+    font-size: 1em;
+    border-style: none;
+    border-radius: 0;
+    outline: none;
+}
+.radioSet button[class~="selected"] {
+    color: white;
+    background-color: var(--m0-color);
+}

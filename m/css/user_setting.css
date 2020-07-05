@@ -1,0 +1,185 @@
+body {
+    display: flex;
+    flex-flow: column;
+    margin: 0;
+    min-height: calc(100vh - 3em);
+}
+
+.info {
+    margin: 2em 0;
+    padding: 0 1em;
+    display: flex;
+    width: 100%;
+}
+.info .avatar{
+    position: relative;
+    margin-right: .3em;
+    width: 1em;
+    min-width: 1em;
+    height: 1em;
+    font-size: 5em;
+    border-radius: .1em;
+    overflow: hidden;
+}
+.info .avatar img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.info .avatar .tag {
+    display: none;
+    position: absolute;
+    top: 0em;
+    right: 0em;
+    padding: .2em .4em;
+    color: white;
+    font-size: .1em;
+    background-color: rgb(241, 145, 0);
+    border-style: none none solid solid;
+    border-width: thin;
+    border-color: white;
+    border-radius: 0 0 0 1em;
+}
+.info .text {
+    max-width: calc(100% - 7em);
+    
+}
+.info .text .name {
+    margin-bottom: .2em;
+    max-width: 100%;
+    word-wrap: break-word;
+    font-size: 1.6em;
+    font-weight: bold;
+}
+.info .text .counters, .info .text .counters .counter {
+    display: flex;
+}
+.info .text .counters .counter .value {
+    cursor: pointer;
+    margin: 0 1em 0 .3em;
+    color: var(--d1-color);
+    text-decoration: underline;
+}
+
+.settings .panels {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, .5);
+    border-bottom-style: solid;
+    border-width: 2px;
+    border-color: var(--d1-color);
+}
+.settings .panels .panel {
+    padding: .3em .5em;
+}
+.settings .panels .panel[class~="selected"] {
+    color: white;
+    background-color: var(--d1-color);
+}
+.settings .panels .panel[class~="selected2"] {
+    color: var(--d1-color);
+    font-size: 1.3em;
+    font-weight: bold;
+    border-bottom-style: solid;
+    border-width: thick;
+}
+.settings .detail {
+    display: none;
+    flex-flow: column;
+    justify-content: center;
+    padding: 1em;
+    margin-bottom: 1em;
+    background-color: rgba(255, 255, 255, .5);
+}
+.settings .detail .radioSet {
+    margin-bottom: 1em;
+}
+.settings .detail table {
+    width: 100%;
+}
+.settings .detail table tr[class="split"] {
+    height: 1em;
+}
+.settings .detail table tr td {
+    padding-right: 1em;
+}
+.settings .detail table tr td:first-child {
+    text-align: right;
+}
+.settings .detail table tr td select, .settings .detail table tr td input {
+    width: 100%;
+}
+.settings .weights {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.settings .weights .item {
+    margin: 0 .5em;
+}
+.settings .weights input {
+    width: 3em;
+}
+.settings .hints {
+    margin-top: 2em;
+    color: gray;
+    font-size: .7em;
+}
+.settings .detail .avatars {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    overflow: scroll;
+}
+.settings .detail .avatars img {
+    border-style: solid;
+    border-radius: .5em;
+    border-width: 2px;
+    border-color: #DDD; 
+    margin: .5em;
+    width: 20%;
+    height: 20%;
+    font-size: 1em;
+}
+.settings .detail .avatars .selected {
+    
+    border-color: var(--b1-color);
+    filter: sepia(1) saturate(170%) contrast(1)
+}
+
+.actions {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;    
+    margin-top: 2em;
+}
+.actions button{
+    transition: all .3s;
+    outline: none;
+}
+.actions .notice {
+    margin-top: .5em;
+    color: gray;
+    font-size: .8em;
+}
+
+.uid_outer {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.uid_outer .uid {
+    padding: .2em 1.5em;
+    color: white;
+    font-size: .5em;
+    background-color: rgba(0,0,0,.6);
+    border-radius: 1.4em 1.4em 0 0;
+}
+
+.important {
+    color: red;
+    font-weight: bold;
+}

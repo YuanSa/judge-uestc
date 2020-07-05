@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点灯评教 - 电子科技大学公开评教</title>
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/universal.css">
+</head>
+<script src="js/universal.js"></script>
+<script>
+    let jumpUrl;
+    switch(deviceKind()) {
+        case "pc":
+            //alert("____抱歉！您要访问的桌面端网页尚未适配\n____将为您导航至移动端");
+            jumpUrl = "m/";
+            break;
+        case "mobile":
+            jumpUrl = "m/";
+            break;
+        default:
+            jumpUrl = "m/";
+    }
+    let to = getUrlPara("to");
+    if(to) {
+        var urlSrc = "";
+        var urlParas = "?";
+        switch(to) {
+            case "reader":
+                urlSrc = "reader.html"
+                urlParas += "i=" + getUrlPara("i") + "&";
+                urlParas += "style=" + sequence(getUrlPara("style"), dayOrNight()) + "&";
+                urlParas += "lang=" + sequence(getUrlPara("lang"), "cn");
+                break;
+            case "about":
+                urlSrc = "about";
+                break;
+        }
+        if(urlParas == "?") {
+            urlParas = "";
+        }
+        jumpUrl += urlSrc + urlParas;
+    }
+
+    function dayOrNight() {
+        var d = new Date();
+        var hours = d.getHours();
+        if(hours > 21 || hours < 7) {
+            return "night";
+        } else {
+            return "day";
+        }
+    }
+
+    window.location.href = jumpUrl;
+</script>
+<body>
+    <content>
+        <h1 style="display: none">电子科技大学民间公开评教</h1>
+        <p class="slogan">- 公评 公开 公正 -</p>
+        <div class="icon">
+            <img src="img/icons/loading.svg" alt="">
+            <p class="description">正在跳转</p>
+        </div>
+        <div class="detail">
+            <p>将根据您的设备种类 跳转至更方便阅读的页面</p>
+            <div class="timeout" id="timeout">
+                <p class="dispTimeout">等待时间过长，请刷新重试</p>
+                <div class="buttons">
+                    <button id="btnErrorShow">错误信息</button>
+                    <a href="mailto:"></a>
+                    <button >反馈BUG</button>
+                </div>
+            </div>
+            <div class="errorInfo" id="errorInfo">
+                <div class="header">错误信息</div>
+                <ol id="errors""></ol>
+            </div>
+        </div>
+    </content>
+</body>
+<script>
+    var countNum = 0;
+    var errorInfo = document.getElementById("errors");
+    var timer = setInterval(count, 1000);
+    function count() {
+        if(++countNum==5) {
+            document.getElementById("timeout").style.opacity = 1;
+            clearInterval(timer);
+        }
+    }
+    onerror = function(msg, url, row, col) {
+        var errorMsg = document.createElement("li");
+        errorMsg.innerHTML = msg + " (" + url + ":"+row+")";
+        errorInfo.appendChild(errorMsg);
+        document.getElementById("btnErrorShow").style.display = "inline";
+    }
+    document.getElementById("btnErrorShow").onclick = function () {
+        this.style.display = "none";
+        document.getElementById("errorInfo").style.display = "block";
+    }
+</script>
+</html>

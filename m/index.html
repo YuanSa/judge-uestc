@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点灯评教 - 电子科技大学公开评教系统</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="../css/universal.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body style="height: 100vh; overflow: hidden;">
+    <nav>
+        <div class="logo" onclick="command(0);" tabindex="1"></div>
+        <form class="searchBox" action="" onsubmit="search(); return false;">
+            <input id="searchBox" type="text" placeholder="搜索课程名或代码（推荐代码）">
+            <input type="submit" value="submit" style="display: none" onclick="">
+        </form>
+        <div class="user" id="user" tabindex="2">
+            <span class="only-no-login" id="btn_login">登陆</span>
+            <img class="only-login" id="avatar" src="../img/avatars/default.png" alt="头像" style="display: none">
+        </div>
+    </nav>
+    <content>
+        <div class="ctrl" id="pannel">
+            <div class="inner" class="only-login">
+                <a onclick="command(1);">个人中心</a>
+                <a onclick="command(2);">退出</a>
+            </div>
+        </div>
+        <iframe class="content" id="content" src="home.html" frameborder="0"
+            onload="renewTitle()" tabindex="3"></iframe>
+    </content>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    var nowLogin = "pending";
+    var onlyLogins = document.getElementsByClassName("only-login");
+    var onlyNoLogins = document.getElementsByClassName("only-no-login");
+    function detectLogin() {
+        let cookieLogin = getCookie("login");
+        if(nowLogin != cookieLogin) {
+            nowLogin = cookieLogin;
+            if (cookieLogin == "true") {
+                user.onclick = null;
+                user.onmouseover = pannel.onmouseover = function () { userPannel(1) };
+                user.onmouseout = pannel.onmouseout = function () { userPannel(0) };
+                for (let i = 0; i < onlyLogins.length; i++) {
+                    onlyLogins[i].style.display = "";
+                }
+                for (let i = 0; i < onlyNoLogins.length; i++) {
+                    onlyNoLogins[i].style.display = "none";
+                }
+                document.getElementById("avatar").src = "../img/avatars/" + getCookie("avatar") + ".png";
+            } else {
+                user.onclick = function () {
+                    urlGoto(loginThenGoto("user_login.html", false, false));
+                }
+                user.onmouseover = pannel.onmouseover = null;
+                user.onmouseout = pannel.onmouseout = null;
+                for (let i = 0; i < onlyLogins.length; i++) {
+                    onlyLogins[i].style.display = "none";
+                }
+                for (let i = 0; i < onlyNoLogins.length; i++) {
+                    onlyNoLogins[i].style.display = "";
+                }
+            }
+        }
+    }
+
+    // Replace the default handle function
+    document.onkeydown = function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 116) {
+            e.preventDefault();
+            content.src = content.src;
+        }
+    };
+
+    var user = document.getElementById("user");
+    var pannel = document.getElementById("pannel");
+    var content = document.getElementById("content");
+    var searchBox = document.getElementById("searchBox");
+    setInterval(detectLogin, 1000);
+    function urlGoto(src) {
+        content.src = src;
+    }
+    function userPannel(s) {
+        pannel.style.display = s ? "block" : "none";
+    }
+    function search() {
+        urlGoto("results.html?s=" + searchBox.value);
+    }
+    function renewTitle() {
+        document.title = content.contentWindow.document.title;
+    }
+
+    function command(index) {
+        switch (index) {
+            case 0: location.reload(); break;
+            case 1: urlGoto(loginThenGoto("user_center.html", true, false)); break;
+            case 2: exit(); break;
+        }
+        content.focus();
+    }
+    function exit() {
+        clearCookie("authentification");
+        clearCookie("avatar");
+        clearCookie("login");
+        clearCookie("nickname");
+        clearCookie("studentAuthentification");
+        clearCookie("token");
+        clearCookie("uid");
+        clearCookie("weight");
+        location.reload();
+    }
+
+    let deferredPrompt;
+    
+/*
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+    });
+
+    document.onclick = function() {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+            } else {
+                console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
+    }
+*/
+</script>
+
+</html>

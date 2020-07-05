@@ -1,0 +1,16 @@
+{
+    "short_name": "评教",
+    "name": "点灯评教",
+    "icons": [
+      {
+        "src": "/img/logo.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/m/",
+    "background_color": "#b83014",
+    "display": "standalone",
+    "scope": "/m/",
+    "theme_color": "#b83014"
+  }

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评分</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/judge.css">
+</head>
+<body>
+    <div class="info">
+        <div class="title" id="title">请稍候</div>
+        <div class="code" id="code">正在获取课程</div>
+    </div>
+    <div class="judge">
+        <div class="section">请评价本课以下任教老师</div>
+        <div class="teachers" id="teachers">
+            <!--
+                <div class="teacher">
+                    <div class="name">杨子涵</div>
+                    <div class="detail">光电科学与工程学院 教授</div>
+                </div>
+                <div class="teacher">
+                    <div class="name">杨子涵</div>
+                    <div class="detail">光电科学与工程学院 教授</div>
+                </div>
+            -->
+        </div>
+        
+
+        <div class="section">魔法点评</div>
+        <table class="plain">
+            <tr>
+                <td class="item">给分</td>
+                <td class="stars">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                </td>
+                <td class="describe">未评</td>
+            </tr>
+            <tr>
+                <td class="item">质量</td>
+                <td class="stars">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                </td>
+                <td class="describe">未评</td>
+            </tr>
+            <tr>
+                <td class="item">容易</td>
+                <td class="stars">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                    <img class="star" src="../img/icons/star_s.svg" alt="">
+                </td>
+                <td class="describe">未评</td>
+            </tr>
+        </table>
+
+        <div class="section">文字点评</div>
+        <div class="description" id="description" contenteditable="true" placeholder="正在获取当前评价，请稍候"></div>
+        <div class="notice">
+            <p id="notice_description">若您不希望文字点评，请保持本栏不变</p>
+        </div>
+        <div class="actions">
+            <button class="pill" id="btnSubmit" onclick="submit();">
+                <svg viewBox="0 0 1024 1024" width="200" height="200">
+                    <path d="M843.693959 293.609061 425.255869 712.056362 186.145026 472.947566 66.579883 592.504522 425.255869 951.165158 963.260126 413.174204Z"></path>
+                </svg>
+            </button>
+            <div class="notice" id="notice">您的文字点评将在审核通过后发布</div>
+        </div>
+    </div>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    let stars = [];
+    let items = document.getElementsByClassName("stars");
+    let describes = document.getElementsByClassName("describe");
+    for(let index = 0; index < items.length; index++) {
+        stars[index] = items[index].getElementsByClassName("star");
+        for(let score = 0; score < stars[index].length; score++) {
+            stars[index][score].onclick = function() {
+                judge(index, score);
+            }
+        }
+    }
+
+    let scores = [0, 0, 0];
+    let describe_text = [
+        ["很低", "偏低", "普通", "较高", "很高"],
+        ["很差", "较差", "中等", "较高", "很高"],
+        ["炼狱", "较难", "一般", "容易", "极易"]
+    ];
+    let describe_color = ["#F00", "#F70", "#7AA", "#077", "#0A0"];
+
+    function judge(index, score) {
+        scores[index] = score + 1;
+        describes[index].innerHTML = describe_text[index][score];
+        describes[index].style.color = describe_color[score];
+        let x = 0;
+        while (x <= score) {
+            stars[index][x++].src = "../img/icons/star_f.svg";
+        };
+        while(x < 5) {
+            stars[index][x++].src = "../img/icons/star_s.svg";
+        }
+    }
+
+    let code={course: getUrlPara("course"), teacher: getUrlPara("teacher")};
+    ajaxTo("POST", "../php/system/judge_info.php", code, function(json) {
+        if(json.state == "success") {
+            //console.log(json);
+            document.getElementById("title").innerHTML = json.name;
+            document.getElementById("code").innerHTML = code.course;
+            let teachers = document.getElementById("teachers");
+            let newNode1, newNode2;
+            let teacherList = [];
+            for(let i = 0; i < json.teachers.length; i++) {
+                newNode1 = document.createElement("div");
+                newNode1.className = "teacher";
+                newNode2 = document.createElement("div");
+                newNode2.className = "name";
+                newNode2.innerHTML = json.teachers[i].name;
+                teacherList[i] = json.teachers[i].name;
+                newNode1.appendChild(newNode2);
+                newNode2 = document.createElement("div");
+                newNode2.className = "detail";
+                newNode2.innerHTML = json.teachers[i].detail;
+                newNode1.appendChild(newNode2);
+                teachers.appendChild(newNode1);
+            }
+            document.getElementById("description").setAttribute("placeholder", "请在此输入对" + teacherList.join('、') + "老师" + (teacherList.length>1?"共同":"") + "任教本课的评价");
+            if(json.description) {
+                document.getElementById("description").innerHTML = json.description;
+            } else {
+                document.getElementById("description").setAttribute("placeholder", "尚无有效的文字评教");
+            }
+            let backupDescription = getCookie("backup_"+code.course+"-"+code.teacher);
+            if(backupDescription) {
+                document.getElementById("description").innerHTML = backupDescription;
+                document.getElementById("backupDescription").innerHTML = "您上次提交失败，已为您恢复上次编辑的内容";
+            }
+            testDescription = json.description;
+            if(json.scores) {
+                scores = json.scores.split(",");
+                for (i in scores) {
+                    judge(i, scores[i] - 1);
+                }
+            }
+        } else {
+            alert("对不起，遇到了致命错误。请截图联系管理员解决。\n["+json.code+"] " + json.message);
+        }
+    });
+
+    var testDescription;
+    var notice = document.getElementById("notice");
+    var btnSubmit = document.getElementById("btnSubmit");
+    function submit() {
+        if(!(scores[0]*scores[1]*scores[2])) {
+            alert("您还没有完成打分");
+            return;
+        }
+        btnSubmit.style.fill = "white";
+        btnSubmit.style.backgroundColor = "orange";
+        notice.innerHTML = "正在处理 请稍候";
+        btnSubmit.onclick = null;
+        let newDescription = document.getElementById("description").innerHTML;
+        let newJudge = scores.join(',');
+        let changedDescription = (newDescription == testDescription ? "" : newDescription);
+        ajaxTo("POST", "../php/system/judge_submit.php", {course:code.course, teacher:code.teacher, judge:newJudge, describe:changedDescription}, function(json) {
+            btnSubmit.onclick = submit;
+            if(json.state=="success") {
+                clearCookie("backup_"+code.course+"-"+code.teacher);
+                btnSubmit.style.backgroundColor = "green";
+                notice.innerHTML = "评价成功 即将跳转";
+                location.href = "notice.html?code=" + (changedDescription?"200&id="+json.id:"201");
+            } else {
+                btnSubmit.style.backgroundColor = "red";
+                let errorMessage = "["+json.code+"] " + json.message;
+                if(testDescription == newDescription) {
+                    alert("对不起，遇到了致命错误。请截图联系管理员解决。\n" + errorMessage);
+                    notice.innerHTML = "评价失败";
+                } else {
+                    setCookie("backup_"+code.course+"-"+code.teacher, newDescription, 365); // 保存
+                    alert("对不起，遇到了致命错误。您的文字点评已保存在本地，下次进入时会自动恢复。");
+                    alert("请在本页面截图，并联系管理员帮助解决问题。\n"+ errorMessage);
+                    notice.innerHTML = "评价失败 您的文字点评已保存在本地";
+                }
+            }
+        });
+    }
+</script>
+</html>

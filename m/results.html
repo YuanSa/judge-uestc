@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>搜索结果</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/results.css">
+</head>
+<body>
+    <div class="title"><span class="keywords keyword" id="keyword">""</span> 相关</div>
+    <div class="hint" id="hint">
+        <div class="icon-spin" id="hint-loading">
+            <img class="img" src="../img/icons/loading.svg" alt="">
+            <p class="description">正在搜索<span class="keywords"></span>（第<span id="page">1</span>页）</p>
+        </div>
+        <div class="icon" id="hint-no-result" style="display: none">
+            <svg class="img" viewBox="0 0 1251 1024" width="244.3359375" height="200">
+                <path d="M1190.493888 435.638142l-119.550123-213.437653v-1.251834c-1.877751-3.755501-4.381418-6.885086-8.136919-8.762836L634.05379
+                    51.325183l-1.251834-0.625916-1.251834-0.625917c-3.129584-1.877751-6.259169-2.503667-9.388753-2.503668s-6.885086 0.625917-9.388753
+                    2.503668l-1.251834 0.625917-1.251833 0.625916L182.767726 212.811736c-4.381418 2.503667-8.762836 6.259169-11.266504 10.640587L51.9511
+                    438.141809c-5.007335 11.266504 0 24.410758 10.640587 30.04401l97.017115 48.195599 10.01467 5.007335V770.503667c0 8.762836 4.381418
+                    16.273839 12.518337 20.655257l428.12714 182.141809c3.755501 1.877751 7.511002 2.503667 11.266503 2.503668 3.755501 0 7.511002-0.625917
+                    11.266504-2.503668l425.623472-182.767726h1.251834c8.762836-3.129584 14.396088-11.266504 14.396088-20.655256V519.511002l9.388753-5.007335
+                    93.88753-48.195599 3.755501-1.87775h3.755502c8.762836-6.885086 11.266504-18.777506 5.633252-28.792176z m-58.836186-15.022005l8.762836
+                    16.273839-382.435208 191.530562-5.633252 2.503667-3.129584-5.007335L657.212714 458.171149l-3.129584-5.633252 5.633251-3.129584
+                    379.931541-191.530562 2.503667 4.381418 89.506113 158.356968z m-145.838631-194.660147l16.899755 5.633252-348.00978 176.508558-8.762836
+                    4.381418V108.909535l6.259169 1.877751 333.613692 115.168704zM593.369193
+                    110.787286l15.022005-5.007335v302.943765H600.880196l-1.877751-1.251833-352.391198-177.760392 11.89242-4.381418
+                    334.865526-114.542787zM200.919315 263.511002l5.633252-10.640586 386.190709 195.91198 5.633252 3.129584-3.129584 5.633252-92.635697
+                    167.119805-3.129584 5.007335-5.633252-2.503668-387.442543-194.03423 6.885086-12.518337 87.628361-157.105135z m26.288509
+                    499.481663l-11.266504-4.381418V532.02934l0.625917 0.625917 282.288509 140.831296c3.129584 1.251834 6.259169 2.503667 9.388753 2.503667
+                    6.885086 0 13.144254-3.755501 16.899755-9.388753l71.354524-125.809291 11.89242-20.655257V920.0978l-15.647922-6.259169-365.535452-150.845966z
+                    m801.799511-16.273839v11.892421l-10.640587 4.381418-365.535452 150.845966-6.885086 3.129584V520.136919l11.892421 20.655257 71.98044
+                    126.435208c3.129584 5.633252 9.388753 8.762836 15.647922 8.762836 3.129584 0 6.259169-0.625917 9.388753-2.503667l274.777506-137.701712v210.933985z">
+                </path>
+            </svg>
+            <p class="description">我们仍未搜到刚才所输入的内容</p>
+        </div>
+    </div>
+    <div class="results" id="results" style="display: none">
+        <p class="myLove">如有条件，请尽量保持课程代码和您要评教的课程一致。推荐直接搜索课程代码（如下方结果所示，不包含“点”号及之后的代码）</p>
+        <div class="result" id="course">
+            <table id="course-table">
+                <tr>
+                    <th>课程</th>
+                    <th>课程代码</th>
+                </tr>
+                <tr>
+                    <td>PS教程</td>
+                    <td>元卅</td>
+                </tr>
+            </table>
+            <div class="pages">
+                <button class="button" id="btn-course-prev" onclick="page(this, -1)">
+                    <svg viewBox="0 0 1024 1024" width="200" height="200">
+                        <path d="M421.228666 514.957971L784.268842 151.917795a85.577949 85.577949 0 0 0 0-121.005866 85.532789 85.532789 0 0 0-120.983285 0L239.731158 454.443749a85.577949 85.577949 0 0 0 0 121.005865l423.554399 423.464079a85.532789 85.532789 0 1 0 120.983285-120.983285L421.228666 514.957971z"></path>
+                    </svg>
+                </button>
+                <button class="button reverse disable" id="btn-course-next" onclick="page(this, 1)">
+                    <svg viewBox="0 0 1024 1024" width="200" height="200">
+                        <path d="M421.228666 514.957971L784.268842 151.917795a85.577949 85.577949 0 0 0 0-121.005866 85.532789 85.532789 0 0 0-120.983285 0L239.731158 454.443749a85.577949 85.577949 0 0 0 0 121.005865l423.554399 423.464079a85.532789 85.532789 0 1 0 120.983285-120.983285L421.228666 514.957971z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="result" id="teacher" style="display:none;">
+            <table>
+                <tr>
+                    <th>老师</th>
+                    <th>学院</th>
+                    <th>评价</th>
+                </tr>
+                <tr>
+                    <td>元卅</td>
+                    <td>光电</td>
+                    <td>S</td>
+                </tr>
+            </table>
+            <div class="pages">
+                <button class="button">
+                    <svg viewBox="0 0 1024 1024" width="200" height="200">
+                        <path d="M421.228666 514.957971L784.268842 151.917795a85.577949 85.577949 0 0 0 0-121.005866 85.532789 85.532789 0 0 0-120.983285 0L239.731158 454.443749a85.577949 85.577949 0 0 0 0 121.005865l423.554399 423.464079a85.532789 85.532789 0 1 0 120.983285-120.983285L421.228666 514.957971z"></path>
+                    </svg>
+                </button>
+                <button class="button reverse disable">
+                    <svg viewBox="0 0 1024 1024" width="200" height="200">
+                        <path d="M421.228666 514.957971L784.268842 151.917795a85.577949 85.577949 0 0 0 0-121.005866 85.532789 85.532789 0 0 0-120.983285 0L239.731158 454.443749a85.577949 85.577949 0 0 0 0 121.005865l423.554399 423.464079a85.532789 85.532789 0 1 0 120.983285-120.983285L421.228666 514.957971z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    var s = getUrlPara("s"); // 's' for 'Search'
+    var p = 1, pMax = 1; // 'p' for 'Page'
+    let keywords = document.getElementsByClassName("keywords");
+    for(keyword of keywords) keyword.innerHTML = "\"" + s + "\"";
+    getData(s, p);
+
+    function page(caller, shift) {
+        if(caller.className.search(" disable") == -1) {
+            p += shift;
+            getData(s, p);
+        }
+    }
+
+    function getData(s, p) {
+        document.getElementById("page").innerHTML = p;
+        document.getElementById("results").style.display = "none";
+        document.getElementById("hint").style.display = "";
+        document.getElementById("hint-no-result").style.display = "none";
+        document.getElementById("hint-loading").style.display = "";
+        ajaxTo("POST", "../php/system/search.php", {s:s, p:p}, function(json){
+            // json {state:success, maxPage:n, data:[a,b,c,...]}
+            console.log(json);
+            let courseTable = document.getElementById("course-table");
+            courseTable.innerHTML = "<tr><th>课程</th><th style='min-width: 4.5em'>课程代码</th></tr>";
+            if(json.data.length) {
+                for(let i = 0; i < json.data.length; i++) {
+                    let newNodeTr = document.createElement("tr");
+                    let newNodeTd;
+                    newNodeTd = document.createElement("td");
+                    newNodeTd.innerHTML = json.data[i].name;
+                    newNodeTr.appendChild(newNodeTd);
+                    newNodeTd = document.createElement("td");
+                    newNodeTd.innerHTML = json.data[i].code;
+                    newNodeTr.appendChild(newNodeTd);
+                    newNodeTr.onclick = function() {
+                        location.href = "course.html?code=" + json.data[i].code;
+                    }
+                    courseTable.appendChild(newNodeTr);
+                }
+                document.getElementById("hint").style.display = "none";
+                document.getElementById("results").style.display = "";
+            } else {
+                document.getElementById("hint-no-result").style.display = "";
+            }
+            document.getElementById("hint-loading").style.display = "none";
+            document.getElementById("btn-course-prev").className = (p==1 ? "button disable" : "button");
+            document.getElementById("btn-course-next").className = (p==json.maxPage ? "button reverse disable" : "button reverse");
+        })
+    }
+</script>
+</html>

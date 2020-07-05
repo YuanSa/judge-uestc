@@ -1,0 +1,76 @@
+content {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+content .slogan {
+    display: none;
+    font-size: 1em;
+}
+.icon {
+    margin: 1em 0;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.icon img {
+    width: 5em;
+    height: 5em;
+    animation: spin 1s cubic-bezier(1, .9, .5, .7) 0s infinite backwards;
+}
+.description {
+    margin: .5em 0;
+    font-size: 2em;
+}
+.detail {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1em;
+    width: 100%;
+    color: gray;
+    font-size: .6em;
+}
+.timeout {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+.buttons button{
+    margin: 0 .5em;
+}
+.errorInfo {
+    margin-top: 2em;
+    width: 100%;
+    color: rgb(230, 96, 96);
+}
+.errorInfo .header {
+    padding-left: .4em;
+    font-size: 2em;
+    border-bottom-style: solid;
+    border-width: thin;
+}
+
+#timeout {
+    opacity: 0;
+    transition: opacity 1s;
+}
+#errorInfo {
+    display: none;
+}
+
+@keyframes spin {
+    from {transform: rotate(-50deg);}
+    to {transform: rotate(315deg);}
+}

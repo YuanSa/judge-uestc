@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>通知</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/notice.css">
+</head>
+<body>
+    <div class="icon" id="icon">
+        <img class="img" id="img" src="" alt="">
+    </div>
+    <div class="title" id="title"></div>
+    <div class="description" id="description"></div>
+    <div class="actions" id="actions"></div>
+    <div class="code" id="code"></div>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    let  color, icon, title, descriptions, actions, code;
+
+    // 1nx 登陆与注册
+    // 2nx 用户活动
+    // 3nx 客户端/服务器端错误
+
+    // n0x 成功
+    // n1x 警告
+    // n2x 错误
+    // n3x 再确认
+
+    switch(getUrlPara("code")) {
+        case "100":
+            color = "green";
+            icon = "congratulations";
+            title = "注册成功";
+            descriptions = [
+                "欢迎加入元卅公评",
+                "您的UID为 " + getUrlPara("uid") + "，这是您唯一永久的身份识别码",
+                "现在您可以进行评教 或 进入个人中心了"
+            ];
+            code = "100-REGISTER_SUCCESSED";
+            actions = [
+                {style:"normal", text:"主页", action:"jump", para:"home.html"},
+                {style:"disable", text:"个人中心", action:"jump", para:"user_center.html"}
+            ];
+            break;
+        case "101":
+            color = "green";
+            icon = "right";
+            title = "登陆成功";
+            descriptions = [
+                "欢迎回来",
+                "一切还好吗？不妨来说说这段时间你遇到的老师"
+            ];
+            code = "101-LOGIN_SUCCESSED";
+            actions = [
+                {style:"normal", text:"主页", action:"jump", para:"home.html"},
+                {style:"normal", text:"返回", action:"go", para:"-2"}
+            ];
+            break;
+        case "200":
+            color = "green";
+            icon = "right";
+            title = "评教成功";
+            descriptions = [
+                "您的打分已生效 您的文字评论待审核",
+                //"您可以凭流水号“"+getUrlPara("id") + "”在首页或个人中心设置页查询审核进度",
+            ];
+            code = "200-PENDING_REVIEW";
+            actions = [
+                {style:"normal", text:"返回", action:"go", para:"-2"}
+            ];
+            break;
+        case "201":
+            color = "green";
+            icon = "right";
+            title = "评教成功";
+            descriptions = [
+                "您的打分已生效"
+            ];
+            code = "201-JUDGE_ACCEPTED";
+            actions = [
+                {style:"normal", text:"返回", action:"go", para:"-2"}
+            ];
+            break;
+        case "202":
+            color = "green";
+            icon = "right";
+            title = "评教成功";
+            descriptions = [
+                "您的标签已生效"
+            ];
+            code = "202-TAG_ACCEPTED";
+            actions = [
+                {style:"normal", text:"返回", action:"go", para:"-2"}
+            ];
+            break;
+        case "203":
+            color = "green";
+            icon = "right";
+            title = "评教成功";
+            descriptions = [
+                "您的标签已生效 您的文字评论待审核"
+                //"您可以凭流水号“"+getUrlPara("id") + "”在首页或个人中心设置页查询审核进度",
+            ];
+            code = "203-PENDING_REVIEW";
+            actions = [
+                {style:"normal", text:"返回", action:"go", para:"-2"}
+            ];
+            break;
+        case "204":
+            color = "green";
+            icon = "right";
+            title = "反馈已提交";
+            descriptions = [
+                "您的反馈已提交给管理员",
+                "我们会通过站内信 和 您注明的其他联系方式与您取得联系"
+            ];
+            code = "202-PENDING_REPLY";
+            actions = [];
+            break;
+        case "220":
+            color = "red";
+            icon = "error";
+            title = "无权访问";
+            descriptions = [
+                "您的账户没有足够的权限访问该页面",
+                "如果您对此有疑问，请联系网站管理员"
+            ];
+            code = "220-UNAUTHORIZED_ACCESS";
+            actions = [
+                {style:"normal", text:"联系管理员", action:"jump", para:"../?to=reader&p=2"}
+            ];
+            break;
+        case "221":
+            color = "red";
+            icon = "error";
+            title = "拒绝访问";
+            descriptions = [
+                "您的账户被限制访问该页面",
+                "如果您对此有疑问，请联系网站管理员"
+            ];
+            code = "221-FORBIDDEN_ACCESS";
+            actions = [
+                {style:"normal", text:"联系管理员", action:"jump", para:"../index.html"}
+            ];
+            break;
+        case "310":
+            color = "orange";
+            icon = "working";
+            title = "正在建设";
+            descriptions = [
+                "该页面正在施工中",
+                "您有任何问题都可以联系网站管理员人工解决"
+            ];
+            code = "310-WORKING";
+            actions = [
+                {style:"normal", text:"联系管理员", action:"jump", para:"../index.html"},
+                {style:"normal", text:"返回", action:"go", para:"-1"}
+            ];
+            break;
+    }
+
+    document.getElementById("icon").style.backgroundColor = color;
+    document.getElementById("title").style.color = color;
+    document.title = document.getElementById("title").innerHTML = title;
+    document.getElementById("img").src = "../img/icons/" + icon + ".svg";
+    let handle_description = document.getElementById("description");
+    for(description of descriptions) {
+        let new_node = document.createElement("p");
+        new_node.innerHTML = description
+        handle_description.appendChild(new_node);
+    }
+    document.getElementById("code").innerHTML = "CODE: " + code;
+    let handle_actions = document.getElementById("actions");
+    for(action of actions) {
+        let new_node = document.createElement("button");
+        new_node.className = action.style;
+        new_node.innerHTML = action.text;
+        let para
+        switch(action.action) {
+            case "jump":
+                para = action.para;
+                new_node.onclick = function() {
+                    location.href = para;
+                }
+                break;
+            case "go":
+                para = action.para;
+                new_node.onclick = function() {
+                    history.go(para); // [功能未经测试]
+                }
+                break;
+        }
+        handle_actions.appendChild(new_node);
+    }
+</script>
+</html>

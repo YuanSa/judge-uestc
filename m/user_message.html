@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课程</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/user_message.css">
+</head>
+<body>
+    <div class="top">
+        <div class="info">
+            <div class="avatar">
+                <img src="../img/avatars/default.png" id="avatar" alt="头像">
+                <div class="tag" style="display: none">未认证</div>
+            </div>
+            <div class="text">
+                <div class="name" id="nickname">…</div>
+                <div class="counters">
+                    <div class="counter">
+                        <div class="key">我的收件箱</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table id="messages">
+            <tr>
+                <th>消息</th>
+                <th>时间</th>
+            </tr>
+        </table>
+        <div class="hints">
+            <p id="notice">正在加载，请稍候。</p>
+            <p>只列出最近10条记录<span style="display: none;">。更多操作请转至电脑端。</span></p>
+            <p>若有误判，请向<a href="mailto:yuansa@yuansasi.cn">yuansa@yuansasi.cn</a>申诉，并附上存档号和底端的UID。</p>
+        </div>
+    </div>
+    <div class="actions" style="display: none">
+        <button class="pill" id="btn_settings">
+            <svg viewBox="0 0 1024 1024" version="1.1" width="200" height="200">
+                <path d="M843.693959 293.609061 425.255869 712.056362 186.145026 472.947566 66.579883 592.504522 425.255869 951.165158 963.260126 413.174204Z"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="uid_outer">
+        <div class="uid" id="uid">UID: …</div>
+    </div>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    let avatar, nickname, uid = getCookie("uid");
+    avatar = getCookie("avatar");
+    nickname = getCookie("nickname");
+    document.getElementById("avatar").src = "../img/avatars/"+avatar+".png";
+    document.getElementById("nickname").innerHTML = nickname;
+    document.getElementById("uid").innerHTML = "UID: " + uid;
+    ajaxTo("POST", "../php/user/get_message.php", {}, function(json) {
+        if(json.state == "success") {
+            let items = json.items;
+            let table = document.getElementById("messages"), tr, td, date;
+            //let date_now = Date.now();
+            if(items.length == 0) {
+                document.getElementById("notice").innerHTML = "收件箱为空";
+            } else {
+                document.getElementById("notice").style.display = "none";
+            }
+            for(item of items) {
+                tr = document.createElement("tr");
+                td = document.createElement("td");
+                td.innerHTML = item.text;
+                tr.appendChild(td);
+                td = document.createElement("td");
+                td.innerHTML = ((item.date[5]=="0"?"":item.date[5])+item.date[6])+"月"+((item.date[8]=="0"?"":item.date[8])+item.date[9])+"日";
+                tr.appendChild(td);
+                table.appendChild(tr);
+            }
+        } else {
+            alert("读取失败");
+            console.log(json);
+        }
+    });
+</script>
+</html>

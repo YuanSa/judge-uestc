@@ -1,0 +1,92 @@
+body {
+    display: flex;
+    flex-flow: column;
+    min-height: calc(100vh - 3em);
+}
+
+.title {
+    margin: 1.5em 0 0 0;
+    padding: 0 .5em;
+    color: var(--d2-color);
+    font-size: 1.2em;
+    border-bottom-style: solid;
+    border-color: var(--b3-color);
+    border-width: thin;
+}
+.keyword {
+    color: var(--d1-color);
+    font-size: 1.3em;
+}
+.hint {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    text-align: center;
+}
+.icon {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.icon .img {
+    margin-right: .5em;
+    width: 4em;
+    height: 4em;
+}
+.icon-spin .img {
+    width: 2em;
+    height: 2em;
+    animation: spin 1s cubic-bezier(1, .9, .5, .7) 0s infinite backwards;
+}
+.description {
+    font-size: 1em;
+}
+.hint .actions {
+    display: flex;
+    justify-content: center;
+}
+.hint .actions .action {
+    margin: 0 .5em;
+    color: white;
+    fill: white;
+    font-size: 1em;
+    background-color: var(--d1-color);
+    border-style: none;
+}
+.result {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+.results table {
+    margin-top: 1.5em;
+    width: 95%;
+    text-align: center;
+}
+.results table th {
+    min-width: 5em;
+    padding: .5em;
+}
+.results table td {
+    padding: .5em;
+}
+.results .pages {
+    margin-top: .5em;
+    width: 95%;
+    font-size: 1em;
+}
+
+@keyframes spin {
+    from {transform: rotate(-50deg);}
+    to {transform: rotate(315deg);}
+}
+
+.myLove {
+    padding: 0 1em;
+    color: var(--d1-color);
+    font-size: .8em;
+}

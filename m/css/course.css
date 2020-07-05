@@ -1,0 +1,114 @@
+body {
+    display: flex;
+    flex-flow: column;
+    margin: 0;
+    min-height: calc(100vh - 3em);
+}
+
+.info {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3em 0;
+}
+.info .title {
+    color: var(--d1-color);
+    font-size: 2em;
+    font-weight: bold;
+}
+.info .code {
+    color: var(--d1-color);
+    margin-bottom: 1.25em;
+    font-size: .8em;
+}
+.info .description {
+    margin-bottom: 1em;
+    padding: 0 1.5em;
+}
+.info .tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: .5em;
+    padding: 0 1em;
+}
+.info .tags .tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: .2em .5em;
+    padding: .1em .4em .2em .4em;
+    color: white;
+    font-size: .5em;
+    background-color: var(--d1-color);
+    border-radius: .3em;
+}
+.info .tags .tag img {
+    margin-right: .3em;
+    width: 1em;
+    height: 1em;
+}
+.info .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: calc(100% - 4em);
+}
+
+.teachers {
+    padding: 0 1.5em;
+}
+.teachers .teacher {
+    display: flex;
+    justify-content: space-between;
+    padding: .5em 1em;
+    background-color: rgba(230,230,230,.7);
+    border-radius: .3em;
+    box-shadow: 0 3px 3px rgba(0,0,0,.2);
+}
+.teachers .teacher_detail {
+    margin-bottom: 1em;
+    max-height: 0;
+    overflow: hidden;
+    transition: all .5s;
+    background-color: rgba(0,0,0,.03);
+}
+.teachers .teacher_detail .scores {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: .5em 1em 0 1em;
+    color: var(--d1-color);
+    font-size: .8em;
+    opacity: .6;
+}
+.teachers .teacher_detail .scores .score {
+    margin-left: 1em;
+}
+.teachers .teacher_detail .description {
+    padding: 1em 1.5em .5em 1.5em;
+    max-height: 19em;
+    font-size: .8em;
+}
+.teachers .teacher_detail .actions {
+    display: block;
+    padding: 1em;
+    text-align: right;
+}
+.teachers .teacher_detail .actions button {
+    color: var(--main-color);
+}
+.teachers .actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hint {
+    display: none;
+    margin-right: 2em;
+    color: var(--d1-color);
+    font-size: .8em;
+    text-align: right;
+}

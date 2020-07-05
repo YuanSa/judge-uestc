@@ -1,0 +1,21 @@
+﻿<p>本站仍在建设中，某些功能可能无法自助完成。如有需要，请联系管理员人工处理。</p>
+        <h1>联系方式</h1>
+        <div class="flex">
+            <table>
+                <tr>
+                    <th>姓名</th>
+                    <th>联系方式</th>
+                    <th>职责</th>
+                </tr>
+                <tr>
+                    <td>杨子涵</td>
+                    <td><a href="mailto:yuansa@yuansai.cn">yuansa@yuansai.cn</a></td>
+                    <td>所有</td>
+                </tr>
+            </table>
+        </div>
+        <h1>参与本站建设</h1>
+        <h2>捐款</h2>
+        <p>详见捐款页面。</p>
+        <h2>职务</h2>
+        <p>目前尚未开放求职。</p>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>搜索</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/search.css">
+</head>
+<body>
+    <div class="title">公评</div>
+    <form class="form" action="results.html" method="GET">
+        <input class="textBox text" type="text" name="s" placeholder="搜索课程或老师" required>
+        <input class="submit" type="submit" value="搜索" onclick="search();">
+    </form>
+    <table class="minor">
+        <tr>
+            <th>通配符</th>
+            <th>说明</th>
+        </tr>
+        <tr>
+            <td>%</td>
+            <td>替代一个或多个字符</td>
+        </tr>
+        <tr>
+            <td>_</td>
+            <td>仅替代一个字符</td>
+        </tr>
+        <tr>
+            <td>[charlist]</td>
+            <td>[ ]中存在的任何单一字符</td>
+        </tr>
+        <tr>
+            <td>[^charlist]</td>
+            <td>[ ]中不存在的任何单一字符</td>
+        </tr>
+    </table>
+</body>
+<script>
+    function search() {
+        location.href = "results.html?s=" + encodeURI(searchBox.value);
+    }
+</script>
+</html>

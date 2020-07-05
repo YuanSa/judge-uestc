@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课程</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/edit.css">
+</head>
+<body>
+    <div class="info">
+        <div class="title">元卅PS入门教程</div>
+        <div class="code">E0502066</div>
+    </div>
+    <div class="edit">
+        <div class="section">课程简介</div>
+        <div class="description" contenteditable="true" placeholder="请在此输入课程简介"></div>
+        <div class="notice">
+            <p>建议从以下几个方面入手描述：</p>
+            <ol>
+                <li>课程难易程度</li>
+                <li>课程是否有收获</li>
+            </ol>
+        </div>
+        <div class="section">课程标签</div>
+        <div class="tags">
+            <div class="tag selected"><img src="../img/tag.svg">实验</div>
+            <div class="tag selected"><img src="../img/tag.svg">期中考试</div>
+            <div class="tag selected"><img src="../img/tag.svg">期末考试</div>
+            <div class="tag selected"><img src="../img/tag.svg">课堂测验</div>
+            <div class="tag"><img src="../img/tag.svg">课外活动</div>
+            <div class="tag"><img src="../img/tag.svg">论文</div>
+            <div class="tag"><img src="../img/tag.svg">演讲</div>
+            <div class="tag"><img src="../img/tag.svg">发言</div>
+            <div class="tag"><img src="../img/tag.svg">出勤</div>
+        </div>
+        <div class="actions">
+            <button class="pill">
+                <svg viewBox="0 0 1024 1024" width="200" height="200">
+                    <path d="M843.693959 293.609061 425.255869 712.056362 186.145026 472.947566 66.579883 592.504522 425.255869 951.165158 963.260126 413.174204Z"></path>
+                </svg>
+            </button>
+            <div class="notice">您的文字描述将在审核通过后发布</div>
+        </div>
+    </div>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    let tags = document.getElementsByClassName("tag");
+    for(tag of tags) {
+        tag.onclick = function() {
+            this.className = this.selected == 1 ? "tag" : "tag selected";
+            this.selected = !this.selected;
+        }
+    }
+</script>
+</html>

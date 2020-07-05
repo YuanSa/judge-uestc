@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点灯评教SHELL</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="../css/universal.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body style="height: 100vh; overflow: hidden;">
+    <nav>
+        <div class="logo" tabindex="1"></div>
+        <form class="searchBox" action="">
+            <input id="searchBox" type="text" placeholder="搜索课程名或代码（推荐代码）">
+            <input type="submit" value="submit" style="display: none" onclick="">
+        </form>
+        <div class="user" id="user" tabindex="2">
+            <span class="only-no-login" id="btn_login">登陆</span>
+            <img class="only-login" id="avatar" src="../img/avatars/default.png" alt="头像" style="display: none">
+        </div>
+    </nav>
+    <content>
+        <div class="ctrl" id="pannel">
+            <div class="inner" class="only-login">
+                <a>个人中心</a>
+                <a>退出</a>
+            </div>
+        </div>
+        <iframe class="content" id="content" src="user_message.html" frameborder="0" tabindex="3"></iframe>
+    </content>
+</body>
+</html>

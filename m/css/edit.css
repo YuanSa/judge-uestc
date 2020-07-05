@@ -1,0 +1,120 @@
+body {
+    display: flex;
+    flex-flow: column;
+    margin: 0;
+    min-height: calc(100vh - 3em);
+}
+
+.info {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3em 0 1em 0;
+}
+.info .title {
+    color: var(--d1-color);
+    font-size: 2em;
+    font-weight: bold;
+}
+.info .code {
+    color: var(--d1-color);
+    margin-bottom: 2em;
+    font-size: .8em;
+}
+
+.edit {
+    padding: 0 1.5em;
+}
+.edit .section {
+    margin-bottom: .5em;
+    color: var(--d1-color);
+    font-size: 1.3em;
+    font-weight: bold;
+    border-bottom-style: solid;
+    border-width: 2px;
+    width: fit-content;
+}
+.edit .description {
+    margin-bottom: .5em;
+    padding: .5em;
+    width: 100%;
+    color: var(--d1-color);
+    font-size: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+    border-style: solid;
+    border-width: thin;
+    border-radius: .3em;
+    border-color: var(--b3-color);
+    background-color: transparent;
+    outline: none;
+}
+.edit .description:empty:not(:focus):before{
+    content:attr(placeholder);
+    opacity: .5;
+}
+.edit .description:focus {
+    color: black;
+    background-color: white;
+    border-color: var(--b2-color);
+}
+.edit .notice {
+    margin-bottom: 3.75em;
+    color: var(--d1-color);
+    font-size: .8em;
+}
+.edit .notice p {
+    margin: 0 0 .5em .5em;
+}
+.edit .notice ol {
+    margin: 0;
+    padding: 0 2em;
+}
+.edit .tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3em;
+}
+.edit .tags .tag {
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: .2em .5em;
+    padding: .1em .4em .2em .4em;
+    color: var(--d1-color);
+    background-color: var(--alt-key-color);
+    border-style: dotted;
+    border-width: thin;
+    border-radius: .3em;
+}
+.edit .tags .tag[class~="selected"] {
+    color: white;
+    background-color: var(--d1-color);
+    border-color: transparent;
+}
+.edit .tags .tag img {
+    margin-right: .3em;
+    width: 1em;
+    height: 1em;
+}
+.edit .actions {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.edit .actions button {
+    background-color: hsl(100, 60%, 47%);
+}
+.edit .actions button svg {
+    fill: white;
+}
+.edit .actions .notice {
+    margin-top: 1em;
+    color: #999;
+    font-size: .8em;
+}

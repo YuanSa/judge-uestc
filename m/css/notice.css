@@ -1,0 +1,60 @@
+body {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    min-height: calc(100vh - 3em);
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7em;
+    height: 7em;
+    background-color: green;
+    box-shadow: 0 0 .5em gray;
+    border-radius: 50%;
+}
+.icon .img {
+    width: 65%;
+    height: 65%;
+}
+
+.title {
+    margin: .5em 0 .2em 0;
+    color: green;
+    font-size: 1.6em;
+    font-weight: bold;
+}
+.description {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1.5em;
+    font-size: .8em;
+}
+.description p{
+    margin: .3em 0 0 0;
+}
+.actions {
+    margin-top: 1em;
+}
+.actions button {
+    margin: 0 .3em;
+}
+.code {
+    position: relative;
+    top: 4em;
+    height: 0;
+    font-size: .5em;
+    opacity: .35;
+}
+
+.disable {
+    color: #999;
+    border-color: #999;
+    outline: none;
+}

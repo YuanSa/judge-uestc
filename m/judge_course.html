@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评分</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/judge_course.css">
+</head>
+<body>
+    <div class="info">
+        <div class="title" id="title">请稍候</div>
+        <div class="code" id="code">正在获取课程</div>
+    </div>
+    <form onsubmit="return false">
+        <div class="judge">
+            <div class="section">考核方式</div>
+            <div class="notice">
+                <p>考核方式由教务系统提供，如需修改请联系管理员</p>
+            </div>
+            <div class="section">课程属性</div>
+            <div class="tags">
+                <div class="tag">期中考试</div>
+                <div class="tag">期末考试</div>
+                <div class="tag">随堂测验</div>
+                <div class="tag">课外活动</div>
+                <div class="tag">论文/课设</div>
+                <div class="tag">要求专注</div>
+                <div class="tag">实验</div>
+                <div class="tag">演讲</div>
+                <div class="tag">发言</div>
+                <div class="tag">点名/出勤</div>
+                <div class="tag">讨论课</div>
+            </div>
+
+            <div class="section">文字点评</div>
+            <div class="description" id="description" contenteditable="true" placeholder="正在获取当前评价，请稍候"></div>
+            <div class="notice">
+                <p id="notice_description">若您不希望文字点评，请保持本栏不变</p>
+            </div>
+            
+            <div class="actions">
+                <button class="pill" tyle="submit" id="btnSubmit" onclick="submitTag();">
+                    <svg viewBox="0 0 1024 1024" width="200" height="200">
+                        <path d="M843.693959 293.609061 425.255869 712.056362 186.145026 472.947566 66.579883 592.504522 425.255869 951.165158 963.260126 413.174204Z"></path>
+                    </svg>
+                </button>
+                <div class="notice" id="notice">您的文字点评将在审核通过后发布</div>
+            </div>
+        </div>
+    </form>
+</body>
+<script src="../js/universal.js"></script>
+<script>
+    
+    let tag = document.getElementsByClassName("tag");
+    let tag_value = 0;
+    for(let i = 0; i < tag.length; i++) {
+        tag[i].onclick = function() {
+            tag_value = tag_value ^ (1 << i);
+            if(tag_value & (1 << i)) {
+                this.style.color = "white";
+                this.style.backgroundColor = "var(--d1-color)";
+            } else {
+                this.style.color = "";
+                this.style.backgroundColor = "";
+            }
+        }
+    }
+
+    let nowDescriptionNode = document.getElementById("description");
+    let code = getUrlPara("code");
+    let description_old;
+    let backupDescription = getCookie("backup_course_"+code);
+    if(code) {
+        ajaxTo("POST", "../php/system/judge_course_info.php", {code: code}, function(json) {
+            if(json.state == "success") {
+                document.getElementById("title").innerHTML = json.name;
+                document.getElementById("code").innerHTML = code;
+                description_old = json.description;
+                if(json.description) {
+                    nowDescriptionNode.innerHTML = json.description;
+                } else {
+                    nowDescriptionNode.setAttribute("placeholder", "尚无有效的文字评教");
+                }
+                if(backupDescription) {
+                    nowDescriptionNode.innerHTML = backupDescription;
+                    document.getElementById("notice_description").innerHTML = "您上次提交失败，已为您恢复上次编辑的内容";
+                }
+            } else {
+                alert("遇到了致命错误：\n["+json.code+"] "+json.message+"\n请截图并联系管理员。\n十分抱歉！");
+            }
+        });
+    } else {
+        alert("遇到了致命错误 [HTML] 没有通过GET传入code参数。\n请联系管理员反馈问题，反馈时请附触发此BUG的操作步骤。\n十分抱歉！");
+    }
+
+    let btn = document.getElementById("btnSubmit");
+    let notice = document.getElementById("notice");
+    function submitTag() {
+        btn.style.fill = "white";
+        btn.style.backgroundColor = "orange";
+        notice.innerHTML = "正在提交 请稍候";
+        let description_new = document.getElementById("description").innerHTML;
+        let flag_change = true;
+        if(description_new == description_old) {
+            description_new = "";
+            flag_change = false;
+        }
+        ajaxTo("POST", "../php/system/judge_course_submit.php", {code: code, tags: tag_value, description: description_new}, function(json) {
+            if(json.state == "success") {
+                clearCookie("backup_course_"+code);
+                btn.style.backgroundColor = "green";
+                notice.innerHTML = "成功";
+                location.href = flag_change ? "notice.html?code=203&id="+json.id : "notice.html?code=202";
+            } else {
+                if(flag_change) {
+                    setCookie("backup_course_"+code, description_new, 365); // 保存
+                }
+                btn.style.backgroundColor = "red";
+                notice.innerHTML = "失败" + (flag_change ? " 您的文字点评已保存在本地" : "");
+                alert("遇到了致命错误 ["+json.code+"] "+json.message+"\n请截图并联系管理员。您的文字点评已保存在本地，下次会自动恢复。");
+            }
+        });
+    }
+</script>
+</html>

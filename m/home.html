@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <!--meta http-equiv="refresh" content="1"><!---->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>点灯评教 - 电子科技大学公开评教</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/component.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+    <div class="balance_blank"></div>
+    <div class="logo"></div>
+    <div class="logo_name">点灯评教</div>
+    <div class="declaration">登陆后可以自定义各项权重喔~</div>
+    <div class="items">
+        <div class="item" tabindex="1" style="display: none">
+            <div class="icon">
+                <img src="../img/icons/bell.svg" alt="">
+            </div>
+            <div class="name">公告</div>
+        </div>
+        <div class="item" tabindex="2" style="display: none">
+            <div class="icon">
+                <img src="../img/icons/file.svg" alt="">
+            </div>
+            <div class="name">文档</div>
+        </div>
+        <div class="item" tabindex="3" onclick="goTo(3)">
+            <div class="icon">
+                <img src="../img/icons/donate.svg" alt="">
+            </div>
+            <div class="name">赞助</div>
+        </div>
+        <div class="item" tabindex="3" onclick="goTo(4)" style="display: none">
+            <div class="icon">
+                <img src="../img/icons/message.svg" alt="">
+            </div>
+            <div class="name">联系与加入</div>
+        </div>
+        <div class="item" tabindex="3" onclick="goTo(5)" style="display: none">
+            <div class="icon">
+                <img src="../img/icons/bug.svg" alt="">
+            </div>
+            <div class="name">BUG汇总</div>
+        </div>
+    </div>
+    <div class="hint">请从顶部搜索栏开启评教之旅</div>
+</body>
+<script>
+    function goTo(index) {
+        let url;
+        switch(index) {
+            case 1: url = ""; break;
+            case 2: url = ""; break;
+            case 3: url = "donate.html"; break;
+            case 4: url = "reader.html?i=2"; break;
+            case 5: url = "reader.html?i=3"; break;
+            default: url = "";
+        }
+        location.href = url;
+    }
+</script>
+</html>
